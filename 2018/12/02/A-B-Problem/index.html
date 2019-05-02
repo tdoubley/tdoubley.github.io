@@ -7,17 +7,17 @@
   
   <title>A + B Problem | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="问题描述解决思路计算两个数的和最直接的方法就是直接计算(A+B)，但是此题原意也是希望大家能够采用其他的方式进行实现，挑战自己，那么有两种方法可供选择  使用a+b形式直接计算 使用位运算  第一种不用介绍，以下主要介绍第二种方法的原理 方法2原理介绍">
+  <meta name="description" content="问题描述解决思路计算两个数的和最直接的方法就是直接计算(A+B)，但是此题原意也是希望大家能够采用其他的方式进行实现，挑战自己，那么有两种方法可供选择  使用a+b形式直接计算 使用位运算  第一种不用介绍，以下主要介绍第二种方法的原理 方法2原理介绍首先我们先了解二进制的加法计算过程，以3+9为例： 0011(3) 1001(9) 1100(12) 整个计算过程主要有两步，第一步是计算未加上进位">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A + B Problem">
 <meta property="og:url" content="http://yoursite.com/2018/12/02/A-B-Problem/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="问题描述解决思路计算两个数的和最直接的方法就是直接计算(A+B)，但是此题原意也是希望大家能够采用其他的方式进行实现，挑战自己，那么有两种方法可供选择  使用a+b形式直接计算 使用位运算  第一种不用介绍，以下主要介绍第二种方法的原理 方法2原理介绍">
+<meta property="og:description" content="问题描述解决思路计算两个数的和最直接的方法就是直接计算(A+B)，但是此题原意也是希望大家能够采用其他的方式进行实现，挑战自己，那么有两种方法可供选择  使用a+b形式直接计算 使用位运算  第一种不用介绍，以下主要介绍第二种方法的原理 方法2原理介绍首先我们先了解二进制的加法计算过程，以3+9为例： 0011(3) 1001(9) 1100(12) 整个计算过程主要有两步，第一步是计算未加上进位">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-02T03:06:06.117Z">
+<meta property="og:updated_time" content="2018-12-02T12:50:43.839Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A + B Problem">
-<meta name="twitter:description" content="问题描述解决思路计算两个数的和最直接的方法就是直接计算(A+B)，但是此题原意也是希望大家能够采用其他的方式进行实现，挑战自己，那么有两种方法可供选择  使用a+b形式直接计算 使用位运算  第一种不用介绍，以下主要介绍第二种方法的原理 方法2原理介绍">
+<meta name="twitter:description" content="问题描述解决思路计算两个数的和最直接的方法就是直接计算(A+B)，但是此题原意也是希望大家能够采用其他的方式进行实现，挑战自己，那么有两种方法可供选择  使用a+b形式直接计算 使用位运算  第一种不用介绍，以下主要介绍第二种方法的原理 方法2原理介绍首先我们先了解二进制的加法计算过程，以3+9为例： 0011(3) 1001(9) 1100(12) 整个计算过程主要有两步，第一步是计算未加上进位">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -96,11 +96,17 @@
 <li>使用位运算</li>
 </ol>
 <p>第一种不用介绍，以下主要介绍第二种方法的原理</p>
-<h2 id="方法2原理介绍"><a href="#方法2原理介绍" class="headerlink" title="方法2原理介绍"></a>方法2原理介绍</h2>
+<h2 id="方法2原理介绍"><a href="#方法2原理介绍" class="headerlink" title="方法2原理介绍"></a>方法2原理介绍</h2><p>首先我们先了解二进制的加法计算过程，以<code>3+9</code>为例：</p>
+<p>0011(3)</p>
+<p>1001(9)</p>
+<p>1100(12)</p>
+<p>整个计算过程主要有两步，第一步是计算未加上进位的和（原位和），第二部加上进位，而对于二进制，计算原位和可以使用异或操作<code>^</code>，那么如何得到两个二进制相加时的进位呢，要产生进位必须对应位上都为1，此时会向前进一位，那么可以采用<code>(a&amp;b)&lt;&lt;1</code> 的方式求解加法过程中的第一次进位，因为按照加法的计算过程，进位后也可能产生进位，因此需要一直计算直到不产生进位，那么可以采用递归来求解</p>
+<h2 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">aplusb</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// write your code here</span></span><br><span class="line">    <span class="keyword">if</span> (b == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> a;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> aplusb(a^b, (a&amp;b)&lt;&lt;<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/12/02/A-B-Problem/" data-id="cjp6b90cf0004zgtsv45k4jjn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/12/02/A-B-Problem/" data-id="cjv6188rr0002i4ts6jn0rmoh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -108,6 +114,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/05/02/OSGI-felix hello world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          OSGI-felix hello world
+        
+      </div>
+    </a>
   
   
     <a href="/2018/12/02/test/" id="article-nav-older" class="article-nav-link-wrap">
@@ -128,7 +143,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/LintCode/">LintCode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/xxx-yyy/">xxx yyy</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/LintCode/">LintCode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/OSGI/">OSGI</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/xxx-yyy/">xxx yyy</a></li></ul>
     </div>
   </div>
 
@@ -138,7 +153,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/tag1/">tag1</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tag2/">tag2</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OSGI/">OSGI</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/felix/">felix</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tag1/">tag1</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tag2/">tag2</a></li></ul>
     </div>
   </div>
 
@@ -148,7 +163,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/tag1/" style="font-size: 10px;">tag1</a> <a href="/tags/tag2/" style="font-size: 10px;">tag2</a>
+      <a href="/tags/OSGI/" style="font-size: 10px;">OSGI</a> <a href="/tags/felix/" style="font-size: 10px;">felix</a> <a href="/tags/tag1/" style="font-size: 10px;">tag1</a> <a href="/tags/tag2/" style="font-size: 10px;">tag2</a>
     </div>
   </div>
 
@@ -157,7 +172,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
     </div>
   </div>
 
@@ -168,6 +183,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/05/02/OSGI-felix hello world/">OSGI-felix hello world</a>
+          </li>
         
           <li>
             <a href="/2018/12/02/A-B-Problem/">A + B Problem</a>
@@ -193,7 +212,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2018 John Doe<br>
+      &copy; 2019 John Doe<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
